@@ -55,34 +55,6 @@ UART_HandleTypeDef huart1;
 uint16_t x1 = 4;
 uint8_t Rdata[50]; //an array for the data that the arm is going to receive
 
-//#define StartTime1NEC 		9000
-//#define StartTime2NEC 		4500
-//#define HighTimeNEC 			560
-//#define ZeroLowTimeNEC		560
-//#define OneLowTimeNEC			1690
-
-//#define StartTime1SAM 		4500
-//#define StartTime2SAM 		4500
-//#define HighTimeSAM 			560
-//#define ZeroLowTimeSAM		560
-//#define OneLowTimeSAM			1690
-
-//#define StartTime1Sony 		2400
-//#define StartTime2Sony 		600
-//#define LowTimeSony 			600
-//#define ZeroHighTimeSony	600
-//#define OneHighTimeSony		1200
-
-#define StartTime1Panasonic 		3456
-#define StartTime2Panasonic 		1728
-#define HighTimePanasonic 			432
-#define ZeroLowTimePanasonic		432
-#define OneLowTimePanasonic			1296
-
-#define mask32		0x80000000
-#define mask16		0x8000
-
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -92,33 +64,6 @@ static void MX_TIM1_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
-//void SendNEC(const uint32_t data );
-//void SendStartNEC(void);
-//void SendDataNEC(const uint32_t data);
-//void SendEndNEC(void);
-//void SendHigh(void);
-//void SendOne(void);
-//void SendZero(void);
-//void uDelay(const uint16_t);
-//void SendSony(const uint16_t data );
-//void SendStartSony(void);
-//void SendDataSony(const uint16_t data);
-//void SendOneSony(void);
-//void SendZeroSony(void);
-//void SendSAM(const uint32_t data );
-//void SendStartSAM(void);
-//void SendDataSAM(const uint32_t data);
-//void SendHighSAM(void);
-//void SendOneSAM(void);
-//void SendZeroSAM(void);
-//void SendEndSAM(void);
-void SendPAN(const uint32_t data );
-void SendStartPAN(void);
-void SendDataPAN(const uint32_t data);
-void SendEndPAN(void);
-void SendHighPAN(void);
-void SendOnePAN(void);
-void SendZeroPAN(void);
 
 
 /* USER CODE END PFP */
@@ -175,17 +120,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		
-		//__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, x1);
-		
-		//SendNEC(0x20DF10EF);
-		//SendSAM(0xB24D5FA0);
 		HAL_Delay(50);
 
-		//SendSony(0x20DF);
-		
-		//HAL_Delay(500);
-		
-		
   }
 	
 }
@@ -193,9 +129,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	{
 		if(Rdata[0]=='n')
 		{
-			//SendPAN(0xE0E040BF);
-			SendNEC(0x20DF10EF, htim1, x1);
-//			SendNEC(0xFFFFFFFF);
+			SendPAN(0xE0E040BF, htim1, x1);
+			//SendNEC(0x20DF10EF, htim1, x1);
+			//SendNEC(0xFFFFFFFF);
 		}
 		else if(Rdata[0]=='s')
 		{
@@ -437,243 +373,6 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-/************* Roozbeh & Nila Code *************************/
-
-
-
-
-//void SendHigh(void)
-//{
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, x1);
-//	uDelay(HighTimeNEC);
-//	
-//}
-
-//void SendOne(void)
-//{
-//	SendHigh();
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-//	uDelay(OneLowTimeNEC);
-//}
-
-//void SendZero(void)
-//{
-//	SendHigh();
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-//	uDelay(ZeroLowTimeNEC);
-//}
-
-//void SendStartNEC(void)
-//{
-//	// 9 ms High
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, x1);
-//	uDelay(StartTime1NEC);
-//	// 4.5 ms Low
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-//	uDelay(StartTime2NEC);
-//}
-
-//void SendDataNEC(const uint32_t data)
-//{
-//	uint32_t mask = mask32;
-//	
-//	for(uint16_t i=0; i<32; i++)
-//	{
-//		if (data & mask)
-//			SendOne();
-//		else 
-//			SendZero();
-//		mask = mask >> 1;
-//	}
-//	
-//	
-//}
-
-//void SendEndNEC(void)
-//{
-//	SendHigh();
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-//}
-
-//void SendNEC(const uint32_t data )
-//{
-//	SendStartNEC();
-//	SendDataNEC(data);
-//	SendEndNEC();
-//}
-
-//void uDelay(const uint16_t d)
-//{
-//	TIM3->CNT = 0;
-//	while(TIM3->CNT < d);
-//}
-
-/***************** Sony ******************/
-//void SendSony(const uint16_t data)
-//{
-//	SendStartSony();
-//	SendDataSony(data);
-//}
-
-//void SendStartSony(void)
-//{
-//	// 9 ms High
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, x1);
-//	uDelay(StartTime1Sony);
-//	// 4.5 ms Low
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-//	uDelay(StartTime2Sony);
-//}
-
-//void SendDataSony(const uint16_t data)
-//{
-//	uint16_t mask = mask16;
-//	
-//	for(uint16_t i=0; i<16; i++)
-//	{
-//		if (data & mask)
-//			SendOneSony();
-//		else 
-//			SendZeroSony();
-//		mask = mask >> 1;
-//	}
-//}
-
-//void SendOneSony(void)
-//{
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, x1);
-//	uDelay(OneHighTimeSony);
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-//	uDelay(LowTimeSony);
-//}
-
-//void SendZeroSony(void)
-//{
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, x1);
-//	uDelay(ZeroHighTimeSony);
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-//	uDelay(LowTimeSony);
-//}
-
-/**************SAMSUNG***********/
-//void SendHighSAM(void)
-//{
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, x1);
-//	uDelay(HighTimeSAM);
-//	
-//}
-
-//void SendOneSAM(void)
-//{
-//	SendHighSAM();
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-//	uDelay(OneLowTimeSAM);
-//}
-
-//void SendZeroSAM(void)
-//{
-//	SendHighSAM();
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-//	uDelay(ZeroLowTimeSAM);
-//}
-
-//void SendStartSAM(void)
-//{
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, x1);
-//	uDelay(StartTime1SAM);
-//	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-//	uDelay(StartTime2SAM);
-//}
-
-//void SendDataSAM(const uint32_t data)
-//{
-//	uint32_t mask = mask32;
-//	
-//	for(uint16_t i=0; i<32; i++)
-//	{
-//		if (data & mask)
-//			SendOneSAM();
-//		else 
-//			SendZeroSAM();
-//		mask = mask >> 1;
-//	}
-//}
-
-
-//void SendSAM(const uint32_t data )
-//{
-//	SendStartSAM();
-//	SendDataSAM(data);
-//	SendEndSAM();
-//}
-
-//void SendEndSAM(void)
-//{
-//	SendZeroSAM();
-//}
-
-/**********Panasonic************/
-
-void SendHighPAN(void)
-{
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, x1);
-	uDelay(HighTimePanasonic);
-	
-}
-
-void SendOnePAN(void)
-{
-	SendHighPAN();
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-	uDelay(OneLowTimePanasonic);
-}
-
-void SendZeroPAN(void)
-{
-	SendHighPAN();
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-	uDelay(ZeroLowTimePanasonic);
-}
-
-void SendStartPAN(void)
-{
-	// 9 ms High
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, x1);
-	uDelay(StartTime1Panasonic);
-	// 4.5 ms Low
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-	uDelay(StartTime2Panasonic);
-}
-
-void SendDataPAN(const uint32_t data)
-{
-	uint32_t mask = mask32;
-	
-	for(uint16_t i=0; i<32; i++)
-	{
-		if (data & mask)
-			SendOnePAN();
-		else 
-			SendZeroPAN();
-		mask = mask >> 1;
-	}
-	
-	
-}
-
-void SendEndPAN(void)
-{
-	SendHighPAN();
-	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, 0);
-}
-
-void SendPAN(const uint32_t data )
-{
-	SendStartPAN();
-	SendDataPAN(data);
-	SendEndPAN();
-}
-
 
 /* USER CODE END 4 */
 
@@ -701,6 +400,7 @@ void assert_failed(char *file, uint32_t line)
 { 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
+		 By Roozbeh Bazargani & Nila Masroori
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }

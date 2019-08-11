@@ -1,7 +1,5 @@
-
 #include "uDelay.h"
 #include "main.h"
-#include <stdint.h>
 
 #define StartTime1NEC 	9
 #define StartTime2NEC 	4500
