@@ -3,8 +3,8 @@
 
 #define StartTime1Sony 		2200 //2400
 #define StartTime2Sony 		600  //600
-#define LowTimeSony 			520  //600
-#define ZeroHighTimeSony	550 //600
+#define LowTimeSony 			450  //600
+#define ZeroHighTimeSony	600 //600
 #define OneHighTimeSony		1200
 
 #define mask16		0x8000
