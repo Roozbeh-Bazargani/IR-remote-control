@@ -3,9 +3,9 @@
 
 #define StartTime1SAM 		4500
 #define StartTime2SAM 		4500
-#define HighTimeSAM 			560
-#define ZeroLowTimeSAM		560
-#define OneLowTimeSAM			1690
+#define HighTimeSAM 			500 //560
+#define ZeroLowTimeSAM		450 //560
+#define OneLowTimeSAM			1600 //1690
 
 #define mask32		0x80000000
 
