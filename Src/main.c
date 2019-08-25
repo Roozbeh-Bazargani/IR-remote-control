@@ -114,6 +114,46 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+		
+		/******Durations********/
+		
+		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_8))
+		{
+			TIM3->CNT = 0;
+			uint16_t i = 0;
+			while(i < 300)
+			{
+				while (HAL_GPIO_ReadPin (GPIOA, GPIO_PIN_8))
+				{
+						if (TIM3->CNT > 9500)
+							err = 1;
+				}
+				duration[i] = TIM3->CNT;
+				TIM3->CNT = 0;
+				i++;
+				if (err)
+					break;
+				
+				while(!(HAL_GPIO_ReadPin (GPIOA, GPIO_PIN_8)))
+				{
+					if (TIM3->CNT > 9500)
+							err = 1;
+				}
+				duration[i] = TIM3->CNT;
+				TIM3->CNT = 0;
+				i++;
+				if (err)
+					break;
+				
+			}
+			err = 0;
+			/* Serial print out */
+			
+		}
+		
+		
+		/********End of Duration*********/
+		
 		/*for(uint8_t i=0;i<4;i++)
 		{
 		for(uint8_t j=0;j<8;j++)
